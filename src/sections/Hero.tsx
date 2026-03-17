@@ -1,50 +1,14 @@
 import { useEffect, useState } from 'react';
 
 export function HeroContent() {
-  const [bootComplete, setBootComplete] = useState(false);
   const [nameVisible, setNameVisible] = useState(false);
-  const [typewriterText, setTypewriterText] = useState('');
   const [showStats, setShowStats] = useState(false);
   const [showScroll, setShowScroll] = useState(false);
 
-  const bootLines = [
-    '> SYSTEM BOOT v2.5.1................. OK',
-    '> HASSAN.OS LOADING.................. OK',
-    '> FULL STACK MODULE.................. READY',
-    '> AI/ML MODULE....................... READY',
-    '> BLOCKCHAIN MODULE.................. READY',
-    '> WELCOME, OPERATOR.',
-  ];
-
   useEffect(() => {
-    let charIndex = 0;
-    let lineIndex = 0;
-    let fullText = '';
-
-    const typeNextChar = () => {
-      if (lineIndex < bootLines.length) {
-        const line = bootLines[lineIndex];
-        if (charIndex < line.length) {
-          fullText += line[charIndex];
-          setTypewriterText(fullText);
-          charIndex++;
-          setTimeout(typeNextChar, 40);
-        } else {
-          fullText += '\n';
-          setTypewriterText(fullText);
-          charIndex = 0;
-          lineIndex++;
-          setTimeout(typeNextChar, 100);
-        }
-      } else {
-        setBootComplete(true);
-        setTimeout(() => setNameVisible(true), 300);
-        setTimeout(() => setShowStats(true), 1100);
-        setTimeout(() => setShowScroll(true), 1500);
-      }
-    };
-
-    setTimeout(typeNextChar, 200);
+    setTimeout(() => setNameVisible(true), 200);
+    setTimeout(() => setShowStats(true), 900);
+    setTimeout(() => setShowScroll(true), 1400);
   }, []);
 
   const stats = [
@@ -60,8 +24,8 @@ export function HeroContent() {
         @keyframes nameReveal {
           from {
             opacity: 0;
-            transform: translateY(40px) scale(0.95);
-            filter: blur(10px);
+            transform: translateY(60px) scale(0.8);
+            filter: blur(15px);
           }
           to {
             opacity: 1;
@@ -73,7 +37,7 @@ export function HeroContent() {
         @keyframes statSlideIn {
           from {
             opacity: 0;
-            transform: translateX(-20px);
+            transform: translateX(-30px);
           }
           to {
             opacity: 1;
@@ -83,7 +47,7 @@ export function HeroContent() {
 
         @keyframes scrollBounce {
           0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(8px); }
+          50% { transform: translateY(12px); }
         }
 
         @keyframes blinkCursor {
@@ -91,66 +55,66 @@ export function HeroContent() {
           50%, 100% { opacity: 0; }
         }
 
-        .hero-boot-text {
-          font-family: 'Share Tech Mono', monospace;
-          font-size: clamp(0.5rem, 1.2vw, 0.75rem);
-          color: #00ff9d;
-          text-shadow: 0 0 10px #00ff9d, 0 0 20px #00ff9d40;
-          line-height: 1.6;
-          white-space: pre;
-          letter-spacing: 0.05em;
-          opacity: ${bootComplete ? 0 : 1};
-          transition: opacity 0.8s ease-out;
-        }
-
         .hero-name-container {
           font-family: 'Press Start 2P', monospace;
-          font-size: clamp(3rem, 10vw, 8rem);
+          font-size: clamp(3rem, 12vw, 9rem);
           color: #00ff9d;
-          text-shadow: 0 0 20px #00ff9d, 0 0 40px #00ff9d80, 0 0 80px #00ff9d30;
-          letter-spacing: 0.05em;
-          line-height: 1.2;
+          text-shadow: 0 0 20px #00ff9d, 0 0 40px #00ff9d, 0 0 80px #00ff9d40;
+          letter-spacing: 0.08em;
+          line-height: 1.15;
           text-align: center;
-          animation: ${nameVisible ? 'nameReveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards' : 'none'};
+          animation: ${nameVisible ? 'nameReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards' : 'none'};
+          opacity: 0;
+        }
+
+        .hero-name-first {
+          display: block;
         }
 
         .hero-name-last {
           color: #ffb800;
-          text-shadow: 0 0 20px #ffb800, 0 0 40px #ffb80050;
+          text-shadow: 0 0 20px #ffb800, 0 0 40px #ffb800, 0 0 80px #ffb80040;
         }
 
         .hero-subtitle {
           font-family: 'Share Tech Mono', monospace;
-          color: #ffb80099;
-          letter-spacing: 0.4em;
-          font-size: clamp(0.6rem, 1.5vw, 1rem);
-          margin-top: 1rem;
+          color: #ffb80088;
+          letter-spacing: 0.5em;
+          font-size: clamp(0.7rem, 1.8vw, 1.1rem);
+          margin-top: clamp(1rem, 3vw, 2rem);
+          font-weight: bold;
           opacity: ${nameVisible ? 1 : 0};
-          animation: ${nameVisible ? 'nameReveal 1s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards' : 'none'};
+          animation: ${nameVisible ? 'nameReveal 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.4s forwards' : 'none'};
         }
 
         .hero-stats-row {
           display: flex;
-          gap: 1rem;
+          gap: 1.2rem;
           flex-wrap: wrap;
           justify-content: center;
-          margin-top: 2rem;
+          margin-top: clamp(1.5rem, 4vw, 3rem);
           padding: 0 2rem;
         }
 
         .hero-stat-chip {
-          border: 1px solid #00ff9d40;
-          background: #00ff9d08;
-          padding: 6px 14px;
-          font-size: 0.55rem;
+          border: 2px solid #00ff9d;
+          background: linear-gradient(135deg, #00ff9d15, #00ff9d08);
+          padding: 8px 18px;
+          font-size: clamp(0.5rem, 0.8vw, 0.65rem);
           color: #00ff9d;
-          border-radius: 2px;
-          box-shadow: 0 0 10px #00ff9d20;
+          border-radius: 3px;
+          box-shadow: 0 0 15px #00ff9d30;
           font-family: 'Share Tech Mono', monospace;
-          letter-spacing: 0.1em;
-          animation: ${showStats ? `statSlideIn 0.6s ease-out 0.1s forwards` : 'none'};
+          letter-spacing: 0.12em;
+          font-weight: bold;
+          animation: ${showStats ? `statSlideIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards` : 'none'};
           opacity: 0;
         }
+
+        .hero-stat-chip:nth-child(1) { animation-delay: 0s; }
+        .hero-stat-chip:nth-child(2) { animation-delay: 0.1s; }
+        .hero-stat-chip:nth-child(3) { animation-delay: 0.2s; }
+        .hero-stat-chip:nth-child(4) { animation-delay: 0.3s; }
 
         .hero-scroll-indicator {
           position: absolute;
@@ -163,27 +127,20 @@ export function HeroContent() {
         }
 
         .hero-scroll-text {
-          font-family: 'Share Tech Mono', monospace;
-          font-size: clamp(0.5rem, 1vw, 0.7rem);
+          font-family: 'Press Start 2P', monospace;
+          font-size: clamp(0.45rem, 0.8vw, 0.65rem);
           color: #00ff9d;
-          letter-spacing: 0.2em;
-          animation: blinkCursor 1s infinite;
-          margin-bottom: 0.5rem;
+          letter-spacing: 0.15em;
+          animation: blinkCursor 1.2s infinite;
+          margin-bottom: 1rem;
+          font-weight: bold;
         }
 
         .hero-scroll-arrow {
-          font-size: 1.5rem;
-          animation: scrollBounce 1.5s ease-in-out infinite;
+          font-size: clamp(1.5rem, 3vw, 2rem);
+          animation: scrollBounce 2s ease-in-out infinite;
           display: inline-block;
-        }
-
-        .hero-cursor-blink {
-          display: inline-block;
-          width: 2px;
-          height: 1em;
-          background: #00ff9d;
-          margin-left: 4px;
-          animation: blinkCursor 0.6s infinite;
+          color: #00ff9d;
         }
       `}</style>
 
@@ -203,51 +160,38 @@ export function HeroContent() {
           style={{
             textAlign: 'center',
             width: '100%',
-            maxWidth: '90vw',
+            maxWidth: '95vw',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
           }}
         >
-          {/* Boot sequence */}
-          {!bootComplete && (
-            <div className="hero-boot-text">
-              {typewriterText}
-              <span className="hero-cursor-blink" />
-            </div>
-          )}
-
           {/* Name display */}
-          {bootComplete && (
-            <>
-              <div className="hero-name-container">
-                SHAIK HASSAN
-                <br />
-                <span className="hero-name-last">AHMED</span>
-              </div>
+          <div className="hero-name-container">
+            <span className="hero-name-first">SHAIK HASSAN</span>
+            <span className="hero-name-last">AHMED</span>
+          </div>
 
-              <div className="hero-subtitle">
-                FULL STACK · AI/ML · BLOCKCHAIN
-              </div>
+          <div className="hero-subtitle">
+            FULL STACK · AI/ML · BLOCKCHAIN
+          </div>
 
-              {/* Stat chips */}
-              {showStats && (
-                <div className="hero-stats-row">
-                  {stats.map((stat, idx) => (
-                    <div key={idx} className="hero-stat-chip" style={{ animationDelay: `${idx * 0.12}s` }}>
-                      {stat}
-                    </div>
-                  ))}
+          {/* Stat chips */}
+          {showStats && (
+            <div className="hero-stats-row">
+              {stats.map((stat, idx) => (
+                <div key={idx} className="hero-stat-chip">
+                  {stat}
                 </div>
-              )}
-            </>
+              ))}
+            </div>
           )}
         </div>
 
         {/* Scroll indicator */}
         <div className="hero-scroll-indicator">
-          <div className="hero-scroll-text">[ SCROLL TO ENTER ]</div>
+          <div className="hero-scroll-text">[ SCROLL DOWN ]</div>
           <div className="hero-scroll-arrow">↓</div>
         </div>
       </section>

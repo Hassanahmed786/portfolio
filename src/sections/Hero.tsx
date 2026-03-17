@@ -13,7 +13,6 @@ export function HeroContent() {
     '> FULL STACK MODULE.................. READY',
     '> AI/ML MODULE....................... READY',
     '> BLOCKCHAIN MODULE.................. READY',
-    '> 7x HACKATHON RECORD................ VERIFIED ✓',
     '> WELCOME, OPERATOR.',
   ];
 

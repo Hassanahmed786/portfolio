@@ -2,7 +2,6 @@ import { useRef } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 import * as THREE from 'three';
-import { GlowText } from '../components/shared';
 
 const techLogos = ['React', 'Python', 'Solidity', 'TypeScript', 'Web3.js', 'TensorFlow', 'AWS', 'PostgreSQL'];
 

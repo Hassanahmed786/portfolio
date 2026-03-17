@@ -1,9 +1,9 @@
 import { useRef, useEffect } from 'react';
-import { useThree, useFrame } from '@react-three/fiber';
+import { useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
 export const useMouseRepel = () => {
-  const { raycaster, camera, scene, size } = useThree();
+  const { raycaster, camera, size } = useThree();
   const mouseRef = useRef(new THREE.Vector2());
   const worldMouseRef = useRef(new THREE.Vector3());
 

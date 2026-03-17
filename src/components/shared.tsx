@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 export function CRTOverlay() {
   return <div className="crt-overlay" />;
@@ -95,14 +95,21 @@ export function TerminalBox({
   title,
   children,
   className = '',
+  style,
+  onClick,
+  ...props
 }: {
   title?: string;
   children: ReactNode;
   className?: string;
+  style?: React.CSSProperties;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
+  [key: string]: any;
 }) {
   return (
     <div
       className={className}
+      onClick={onClick}
       style={{
         border: '2px solid #00ff9d',
         borderRadius: '4px',
@@ -111,7 +118,9 @@ export function TerminalBox({
         color: '#e8ffe8',
         fontFamily: 'var(--font-mono)',
         boxShadow: '0 0 20px #00ff9d40',
+        ...style,
       }}
+      {...props}
     >
       {title && (
         <div

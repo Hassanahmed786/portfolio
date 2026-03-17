@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Scene } from './canvas/Scene';
 import { Loader } from './sections/Loader';
-import { HeroSection, HeroContent } from './sections/Hero';
+import { HeroContent } from './sections/Hero';
 import { AboutSection } from './sections/About';
 import { ExperienceSection } from './sections/Experience';
 import { ProjectsSection } from './sections/Projects';
@@ -133,25 +133,25 @@ export default function App() {
       {/* Content sections */}
       {loaded && (
         <div style={{ position: 'relative', zIndex: 5 }}>
-          <div ref={(el) => (sectionRefs.current[0] = el)}>
+          <div ref={(el) => {if (el) sectionRefs.current[0] = el;}}>
             <HeroContent />
           </div>
-          <div ref={(el) => (sectionRefs.current[1] = el)}>
+          <div ref={(el) => {if (el) sectionRefs.current[1] = el;}}>
             <AboutSection />
           </div>
-          <div ref={(el) => (sectionRefs.current[2] = el)}>
+          <div ref={(el) => {if (el) sectionRefs.current[2] = el;}}>
             <ExperienceSection />
           </div>
-          <div ref={(el) => (sectionRefs.current[3] = el)}>
+          <div ref={(el) => {if (el) sectionRefs.current[3] = el;}}>
             <ProjectsSection />
           </div>
-          <div ref={(el) => (sectionRefs.current[4] = el)}>
+          <div ref={(el) => {if (el) sectionRefs.current[4] = el;}}>
             <SkillsSection />
           </div>
-          <div ref={(el) => (sectionRefs.current[5] = el)}>
+          <div ref={(el) => {if (el) sectionRefs.current[5] = el;}}>
             <AchievementsSection />
           </div>
-          <div ref={(el) => (sectionRefs.current[6] = el)}>
+          <div ref={(el) => {if (el) sectionRefs.current[6] = el;}}>
             <ContactSection />
           </div>
         </div>

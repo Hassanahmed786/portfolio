@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { TerminalBox, GlowText } from '../components/shared';
+import { TerminalBox } from '../components/shared';
 
 const projects = [
   {
@@ -65,7 +65,7 @@ function ProjectModal({ project, onClose }: ProjectModalProps) {
       }}
     >
       <TerminalBox
-        onClick={(e) => e.stopPropagation()}
+        onClick={(e: React.MouseEvent<HTMLDivElement>) => e.stopPropagation()}
         className="fade-in"
         style={{ maxWidth: '500px', margin: '20px' }}
       >

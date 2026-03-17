@@ -7,10 +7,10 @@ export function Scene() {
   return (
     <Canvas
       camera={{ position: [0, 2, 10], fov: 60 }}
+      dpr={window.devicePixelRatio}
       gl={{
         antialias: true,
         alpha: true,
-        pixelRatio: window.devicePixelRatio,
       }}
       style={{
         position: 'fixed',

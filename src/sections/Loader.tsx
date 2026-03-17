@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { GlowText } from './shared';
 
 interface LoaderProps {
   onComplete: () => void;

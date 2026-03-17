@@ -30,21 +30,21 @@ export function Loader({ onComplete }: LoaderProps) {
           fullText += currentLine[charIndex];
           setDisplayedText(fullText);
           charIndex++;
-          setTimeout(typeCharacter, 80);
+          setTimeout(typeCharacter, 40);
         } else {
           fullText += '\n';
           setDisplayedText(fullText);
           charIndex = 0;
           lineIndex++;
-          setTimeout(typeCharacter, 300);
+          setTimeout(typeCharacter, 150);
         }
       } else {
         setIsComplete(true);
-        setTimeout(() => onComplete(), 1500);
+        setTimeout(() => onComplete(), 800);
       }
     };
 
-    setTimeout(typeCharacter, 500);
+    setTimeout(typeCharacter, 200);
   }, [onComplete]);
 
   if (isComplete) {

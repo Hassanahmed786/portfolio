@@ -21,7 +21,7 @@ export function GridFloor() {
   );
 }
 
-export function ParticleField({ count = 2000 }: { count?: number }) {
+export function ParticleField({ count = 800 }: { count?: number }) {
   const pointsRef = useRef<THREE.Points>(null);
 
   const positionAttribute = new Float32Array(count * 3);
@@ -34,8 +34,11 @@ export function ParticleField({ count = 2000 }: { count?: number }) {
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute('position', new THREE.BufferAttribute(positionAttribute, 3));
 
+  let frameCount = 0;
   useFrame((state) => {
     if (pointsRef.current) {
+      frameCount++;
+      if (frameCount % 3 !== 0) return;
       const positions = pointsRef.current.geometry.attributes.position.array as Float32Array;
       for (let i = 0; i < positions.length; i += 3) {
         positions[i + 1] += Math.sin(state.clock.elapsedTime * 0.5 + i) * 0.001;
@@ -62,17 +65,20 @@ export function ParticleField({ count = 2000 }: { count?: number }) {
 export function FloatingGeometry() {
   const groupRef = useRef<THREE.Group>(null);
   const geometries = [
-    new THREE.IcosahedronGeometry(0.5, 4),
-    new THREE.TorusKnotGeometry(0.5, 0.2, 100, 16),
-    new THREE.OctahedronGeometry(0.5, 2),
+    new THREE.IcosahedronGeometry(0.5, 3),
+    new THREE.TorusKnotGeometry(0.5, 0.2, 50, 8),
+    new THREE.OctahedronGeometry(0.5, 1),
     new THREE.DodecahedronGeometry(0.5, 0),
   ];
 
   const colors = [0x00ff9d, 0xffb800, 0xffffff, 0xaa00ff];
   const emissives = [0x003a1f, 0x664400, 0x333333, 0x440055];
 
+  let frameCount = 0;
   useFrame((state) => {
     if (!groupRef.current) return;
+    frameCount++;
+    if (frameCount % 2 !== 0) return;
     groupRef.current.children.forEach((child, i) => {
       const mesh = child as THREE.Mesh;
       mesh.rotation.x += 0.002;
@@ -85,7 +91,7 @@ export function FloatingGeometry() {
 
   return (
     <group ref={groupRef}>
-      {Array.from({ length: 25 }).map((_, i) => {
+      {Array.from({ length: 12 }).map((_, i) => {
         const geom = geometries[i % geometries.length];
         const color = colors[i % colors.length];
         const emissive = emissives[i % emissives.length];

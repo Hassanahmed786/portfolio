@@ -1,3 +1,8 @@
+/* GSAP Animation Markers */
+[data-gsap] {
+  will-change: transform, opacity;
+}
+
 /* CRT Overlay and Scanlines */
 ::before {
   content: '';
@@ -37,13 +42,83 @@ body::after {
   z-index: 9998;
 }
 
-/* Custom Cursor */
-* {
-  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><rect x="2" y="2" width="16" height="16" fill="none" stroke="%2300ff9d" stroke-width="2"/><circle cx="10" cy="10" r="2" fill="%2300ff9d"/></svg>') 10 10, auto;
+/* Noise Texture Overlay */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9996;
+  pointer-events: none;
+  opacity: 0.04;
+  background-image: 
+    url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise" seed="2"/></filter><rect width="100" height="100" fill="%23fff" filter="url(%23noise)"/></svg>');
+  animation: noise-shift 0.1s linear infinite;
 }
 
-a, button {
-  cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><rect x="2" y="2" width="16" height="16" fill="none" stroke="%23ffb800" stroke-width="2"/><circle cx="10" cy="10" r="2" fill="%23ffb800"/></svg>') 10 10, pointer;
+@keyframes noise-shift {
+  0% { background-position: 0 0; }
+  100% { background-position: 10px 10px; }
+}
+
+/* Enhanced Custom Cursor */
+.cursor {
+  position: fixed;
+  width: 32px;
+  height: 32px;
+  border: 1.5px solid #00ff9d;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9997;
+  mix-blend-mode: exclusion;
+  box-shadow: 0 0 8px #00ff9d40;
+  top: 0;
+  left: 0;
+  transform: translate(-16px, -16px);
+}
+
+.cursor::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  background: #00ff9d;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 4px #00ff9d;
+}
+
+.cursor-trail {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: #00ff9d;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9996;
+  box-shadow: 0 0 6px #00ff9d60;
+}
+
+/* Click feedback */
+.cursor.click {
+  animation: cursorClick 0.04s ease-out;
+}
+
+@keyframes cursorClick {
+  0% { transform: translate(-16px, -16px) scale(0.8); opacity: 1; }
+  100% { transform: translate(-16px, -16px) scale(1); opacity: 0.8; }
+}
+
+/* Hover link state */
+a:hover .cursor,
+button:hover .cursor {
+  width: 48px;
+  height: 48px;
+  transform: translate(-24px, -24px);
+  background: #00ff9d10;
 }
 
 /* Global Styles */
@@ -81,6 +156,7 @@ body {
 ::-webkit-scrollbar-thumb {
   background: #00ff9d;
   border-radius: 4px;
+  transition: all 0.3s ease;
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -88,13 +164,251 @@ body {
   box-shadow: 0 0 10px #00ff9d;
 }
 
-/* Fade In Animations */
-@keyframes fade-in {
+/* Section Backgrounds */
+#hero {
+  background: radial-gradient(ellipse at 50% 100%, #001a0f 0%, #060608 60%);
+}
+
+#about {
+  background: radial-gradient(ellipse at 0% 50%, #0a0f00 0%, #060608 70%);
+}
+
+#experience {
+  background: radial-gradient(ellipse at 100% 50%, #0f0a00 0%, #060608 70%);
+}
+
+#projects {
+  background: radial-gradient(ellipse at 50% 0%, #0a0010 0%, #060608 60%);
+}
+
+#skills {
+  background: radial-gradient(ellipse at 50% 50%, #000a1a 0%, #060608 70%);
+}
+
+#achievements {
+  background: radial-gradient(ellipse at 50% 100%, #1a0f00 0%, #060608 60%);
+}
+
+#contact {
+  background: radial-gradient(ellipse at 50% 50%, #001a0f 0%, #060608 60%);
+}
+
+/* Section Heading Animations */
+.section-heading {
+  position: relative;
+  display: inline-block;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  color: #00ff9d;
+  text-shadow: 0 0 20px #00ff9d, 0 0 40px #00ff9d60;
+  font-family: 'Press Start 2P', monospace;
+  letter-spacing: 0.1em;
+  margin-bottom: 2rem;
+}
+
+.section-heading::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #00ff9d;
+  box-shadow: 0 0 10px #00ff9d;
+  animation: headingUnderline 0.8s ease-out forwards;
+}
+
+@keyframes headingUnderline {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+.section-heading.glitch {
+  animation: glitch-text 0.3s ease-out;
+}
+
+/* Glitch Effect */
+.glitch {
+  position: relative;
+  animation: glitch 0.3s infinite;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+.glitch::before {
+  animation: glitch-1 0.3s infinite;
+  color: #ff004d;
+  z-index: -1;
+  text-shadow: -2px 0 #ff004d;
+}
+
+.glitch::after {
+  animation: glitch-2 0.3s infinite reverse;
+  color: #00fff9;
+  z-index: -2;
+  text-shadow: 2px 0 #00fff9;
+}
+
+@keyframes glitch {
+  0%   { clip-path: inset(40% 0 61% 0); transform: translate(-2px, 0); }
+  20%  { clip-path: inset(92% 0 1% 0);  transform: translate(2px, 0); }
+  40%  { clip-path: inset(43% 0 1% 0);  transform: translate(-2px, 0); }
+  60%  { clip-path: inset(25% 0 58% 0); transform: translate(2px, 0); }
+  80%  { clip-path: inset(54% 0 7% 0);  transform: translate(-2px, 0); }
+  100% { clip-path: inset(58% 0 43% 0); transform: translate(2px, 0); }
+}
+
+@keyframes glitch-1 {
+  0%   { clip-path: inset(40% 0 61% 0); }
+  20%  { clip-path: inset(92% 0 1% 0); }
+  40%  { clip-path: inset(43% 0 1% 0); }
+  60%  { clip-path: inset(25% 0 58% 0); }
+  80%  { clip-path: inset(54% 0 7% 0); }
+  100% { clip-path: inset(58% 0 43% 0); }
+}
+
+@keyframes glitch-2 {
+  0%   { clip-path: inset(58% 0 43% 0); }
+  20%  { clip-path: inset(54% 0 7% 0); }
+  40%  { clip-path: inset(25% 0 58% 0); }
+  60%  { clip-path: inset(43% 0 1% 0); }
+  80%  { clip-path: inset(92% 0 1% 0); }
+  100% { clip-path: inset(40% 0 61% 0); }
+}
+
+/* Project Card Scanline Sweep */
+.project-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00ff9d, transparent);
+  opacity: 0;
+}
+
+.project-card:hover::after {
+  animation: scanSweep 0.6s ease-out;
+}
+
+@keyframes scanSweep {
+  from { top: 0; opacity: 1; }
+  to { top: 100%; opacity: 0; }
+}
+
+/* Skill Pill Hover */
+.skill-pill {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.2s ease,
+              border-color 0.2s ease;
+}
+
+.skill-pill:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 20px rgba(0, 255, 157, 0.4);
+}
+
+/* Card Transitions - no transition:all */
+.card {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 255, 157, 0.3);
+}
+
+/* Transform-only animations */
+.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-in-delayed {
+  opacity: 0;
+  animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInUp {
   from {
     opacity: 0;
+    transform: translateY(40px);
   }
   to {
     opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Entry animations for list items */
+.list-item {
+  opacity: 0;
+  transform: translateY(25px);
+}
+
+.list-item.visible {
+  animation: listItemEnter 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes listItemEnter {
+  from {
+    opacity: 0;
+    transform: translateY(25px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Button + Link hover states */
+button,
+a {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.2s ease,
+              border-color 0.2s ease,
+              background-color 0.2s ease;
+}
+
+button:hover,
+a:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 12px rgba(0, 255, 157, 0.3);
+}
+
+button:active,
+a:active {
+  transform: scale(0.98);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .section-heading {
+    font-size: clamp(1rem, 3vw, 1.8rem);
+  }
+
+  .cursor {
+    width: 24px;
+    height: 24px;
+    transform: translate(-12px, -12px);
+  }
+
+  a:hover .cursor,
+  button:hover .cursor {
+    width: 36px;
+    height: 36px;
+    transform: translate(-18px, -18px);
   }
 }
 

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, Suspense } from 'react';
 import { Scene } from './canvas/Scene';
 import { Loader } from './sections/Loader';
 import { HeroContent } from './sections/Hero';
@@ -19,16 +19,20 @@ const SECTIONS = ['HERO', 'ABOUT', 'EXPERIENCE', 'PROJECTS', 'SKILLS', 'ACHIEVEM
 
 export default function App() {
   const [loaded, setLoaded] = useState(false);
+  const [introComplete, setIntroComplete] = useState(false);
   const [activeSection, setActiveSection] = useState(0);
   const lenisRef = useRef<Lenis | null>(null);
+  const mainContentRef = useRef<HTMLDivElement>(null);
+  const loaderRef = useRef<HTMLDivElement>(null);
 
+  // Initialize Lenis and GSAP
   useEffect(() => {
-    // Initialize Lenis smooth scroll
     const lenis = new Lenis({
       duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      easing: (t) => 1 - Math.pow(1 - t, 4), // quartic ease
       smoothWheel: true,
-      wheelMultiplier: 1,
+      wheelMultiplier: 0.9,
+      touchMultiplier: 1.5,
     });
 
     lenisRef.current = lenis;
@@ -36,10 +40,10 @@ export default function App() {
     // Sync Lenis with GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
 
+    // GSAP ticker sync
     gsap.ticker.add((time) => {
       lenis.raf(time * 1000);
     });
-
     gsap.ticker.lagSmoothing(0);
 
     // Update active section based on scroll
@@ -55,8 +59,36 @@ export default function App() {
     return () => {
       window.removeEventListener('scroll', handleScroll);
       lenis.destroy();
+      gsap.ticker.remove((time) => {
+        lenis.raf(time * 1000);
+      });
     };
   }, []);
+
+  // Intro to main transition
+  useEffect(() => {
+    if (loaded && !introComplete && loaderRef.current && mainContentRef.current) {
+      // Fade out loader
+      gsap.to(loaderRef.current, {
+        opacity: 0,
+        duration: 0.4,
+        onComplete: () => {
+          if (loaderRef.current) {
+            loaderRef.current.style.display = 'none';
+          }
+        },
+      });
+
+      // Fade in main content
+      gsap.to(mainContentRef.current, {
+        opacity: 1,
+        duration: 0.6,
+        ease: 'power2.out',
+      });
+
+      setIntroComplete(true);
+    }
+  }, [loaded, introComplete]);
 
   const sectionRefs = useRef<(HTMLElement | null)[]>([]);
 
@@ -69,51 +101,67 @@ export default function App() {
     }
   };
 
-  // Custom cursor trail
+  // Enhanced custom cursor with lag
   useEffect(() => {
-    const trail: { x: number; y: number }[] = [];
-    const trailLength = 5;
+    const cursor = document.querySelector('.cursor') as HTMLElement;
+    if (!cursor) return;
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let cursorX = 0;
+    let cursorY = 0;
 
     const handleMouseMove = (e: MouseEvent) => {
-      const x = e.clientX;
-      const y = e.clientY;
+      mouseX = e.clientX;
+      mouseY = e.clientY;
 
-      trail.push({ x, y });
-      if (trail.length > trailLength) trail.shift();
+      // Create trail dot
+      const trailDot = document.createElement('div');
+      trailDot.className = 'cursor-trail';
+      trailDot.style.left = `${mouseX}px`;
+      trailDot.style.top = `${mouseY}px`;
+      document.body.appendChild(trailDot);
 
-      // Create cursor element
-      const cursorEl = document.querySelector('.cursor');
-      if (cursorEl) {
-        (cursorEl as HTMLElement).style.left = `${x}px`;
-        (cursorEl as HTMLElement).style.top = `${y}px`;
-      }
+      setTimeout(() => trailDot.remove(), 200);
+    };
 
-      // Create trail dots
-      trail.forEach((point, index) => {
-        const opacity = (index + 1) / trailLength;
-        const trailDot = document.createElement('div');
-        trailDot.className = 'cursor-trail';
-        trailDot.style.left = `${point.x}px`;
-        trailDot.style.top = `${point.y}px`;
-        trailDot.style.opacity = opacity.toString();
-        document.body.appendChild(trailDot);
+    const animateCursor = () => {
+      cursorX += (mouseX - cursorX) * 0.15;
+      cursorY += (mouseY - cursorY) * 0.15;
 
-        setTimeout(() => trailDot.remove(), 200);
-      });
+      cursor.style.left = `${cursorX}px`;
+      cursor.style.top = `${cursorY}px`;
+
+      requestAnimationFrame(animateCursor);
     };
 
     window.addEventListener('mousemove', handleMouseMove);
+    animateCursor();
 
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, []);
 
   return (
     <div style={{ background: '#060608', color: '#e8ffe8' }}>
-      {/* Canvas background */}
+      {/* Canvas background - always mounted */}
       <Scene />
 
       {/* Loading screen */}
-      {!loaded && <Loader onComplete={() => setLoaded(true)} />}
+      <div
+        ref={loaderRef}
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          zIndex: 2000,
+          opacity: 1,
+          pointerEvents: loaded ? 'none' : 'auto',
+        }}
+      >
+        <Loader onComplete={() => setLoaded(true)} />
+      </div>
 
       {/* Custom cursor */}
       <div className="cursor" />
@@ -130,9 +178,17 @@ export default function App() {
         />
       )}
 
-      {/* Content sections */}
-      {loaded && (
-        <div style={{ position: 'relative', zIndex: 5 }}>
+      {/* Content sections - preloaded, initially hidden */}
+      <div
+        ref={mainContentRef}
+        style={{
+          position: 'relative',
+          zIndex: 10,
+          opacity: 0,
+          pointerEvents: loaded ? 'auto' : 'none',
+        }}
+      >
+        <Suspense fallback={null}>
           <div ref={(el) => {if (el) sectionRefs.current[0] = el;}}>
             <HeroContent />
           </div>
@@ -154,8 +210,8 @@ export default function App() {
           <div ref={(el) => {if (el) sectionRefs.current[6] = el;}}>
             <ContactSection />
           </div>
-        </div>
-      )}
+        </Suspense>
+      </div>
     </div>
   );
 }

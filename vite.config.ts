@@ -8,6 +8,16 @@ export default defineConfig({
     tailwindcss(),
   ],
   optimizeDeps: {
-    include: ['three', '@react-three/fiber', '@react-three/drei'],
+    include: ['three', '@react-three/fiber', '@react-three/drei', '@react-three/postprocessing', 'gsap', 'lenis'],
   },
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'three-vendor': ['three', '@react-three/fiber', '@react-three/drei', '@react-three/postprocessing'],
+          'gsap-vendor': ['gsap'],
+        }
+      }
+    },
+  }
 })

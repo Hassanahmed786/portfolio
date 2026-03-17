@@ -21,7 +21,7 @@ export default function LoadingScreen({ onComplete }: Props) {
   const [lines, setLines] = useState<string[]>([]);
   const [progress, setProgress] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | undefined>();
 
   useEffect(() => {
     console.log('LoadingScreen: Started');

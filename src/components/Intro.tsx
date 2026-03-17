@@ -64,31 +64,36 @@ export function Intro({ onComplete }: IntroProps) {
           currentText = '';
           
           if (lineIndex < terminalLines.length) {
-            const delays = [200, 600, 1000, 1400, 1900, 2500];
-            setTimeout(typeNextChar, delays[lineIndex] || 2500);
+            // Delays between lines: stagger them out nicely
+            const delayBetweenLines = 200;
+            setTimeout(typeNextChar, delayBetweenLines);
           } else {
-            // All lines complete, start fading
-            setTimeout(() => {
-              const terminalEl = document.querySelector('.intro-terminal') as HTMLElement;
-              if (terminalEl) {
-                terminalEl.style.animation = 'terminalFadeOut 0.5s ease 0.5s forwards';
-              }
-            }, 500);
-
-            // Show name at t=3100ms after terminal starts
-            setTimeout(() => {
-              setShowName(true);
-              setShowSubtitle(true);
-            }, 3100 - terminalLines.reduce((acc, line, idx) => {
-              return acc + (line.length * 15 + [200, 600, 1000, 1400, 1900, 2500][idx] || 0);
-            }, 0));
+            // All lines complete - terminal will fade out at 2800ms
+            // Name will show at 3100ms
           }
         }
       }
     };
 
-    const startDelay = setTimeout(typeNextChar, 0);
-    return () => clearTimeout(startDelay);
+    typeNextChar();
+
+    // Fade out terminal at 2800ms, show name at 3100ms
+    const fadeTimer = setTimeout(() => {
+      const terminalEl = document.querySelector('.intro-terminal') as HTMLElement;
+      if (terminalEl) {
+        terminalEl.style.animation = 'terminalFadeOut 0.3s ease forwards';
+      }
+    }, 2800);
+
+    const showNameTimer = setTimeout(() => {
+      setShowName(true);
+      setShowSubtitle(true);
+    }, 3100);
+
+    return () => {
+      clearTimeout(fadeTimer);
+      clearTimeout(showNameTimer);
+    };
   }, []);
 
   // Show progress bar at t=3400ms

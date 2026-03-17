@@ -1,0 +1,629 @@
+/* INTRO COMPONENT STYLES */
+
+/* ===== GRID FLOOR ===== */
+.grid-floor {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 55%;
+  background-image: 
+    linear-gradient(rgba(0, 255, 157, 0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 157, 0.15) 1px, transparent 1px);
+  background-size: 60px 60px;
+  background-position: 0 0;
+  transform: perspective(400px) rotateX(55deg);
+  transform-origin: 50% 0%;
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.8) 30%, black 100%);
+  z-index: 0;
+  animation: gridScroll 3s linear infinite;
+}
+
+@keyframes gridScroll {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 60px;
+  }
+}
+
+/* ===== HORIZON LINE ===== */
+.horizon-line {
+  position: absolute;
+  bottom: 44%;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00ff9d 30%, #00ff9d 70%, transparent);
+  box-shadow: 0 0 20px #00ff9d, 0 0 60px rgba(0, 255, 157, 0.3);
+  opacity: 0.6;
+  z-index: 5;
+}
+
+/* ===== WARP RINGS ===== */
+.warp-rings {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) translateY(-30%);
+  width: 300px;
+  height: 300px;
+  opacity: 0.07;
+  z-index: 2;
+  animation: warpRotate 20s linear infinite;
+}
+
+@keyframes warpRotate {
+  0% {
+    transform: translate(-50%, -50%) translateY(-30%) rotate(0deg);
+  }
+  100% {
+    transform: translate(-50%, -50%) translateY(-30%) rotate(360deg);
+  }
+}
+
+/* ===== CORNER BRACKETS ===== */
+.corner-bracket {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border: 2px solid #00ff9d;
+  z-index: 10;
+}
+
+.corner-bracket.top-left {
+  top: 16px;
+  left: 16px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.corner-bracket.top-right {
+  top: 16px;
+  right: 16px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.corner-bracket.bottom-left {
+  bottom: 16px;
+  left: 16px;
+  border-right: none;
+  border-top: none;
+}
+
+.corner-bracket.bottom-right {
+  bottom: 16px;
+  right: 16px;
+  border-left: none;
+  border-top: none;
+  opacity: 0.5;
+}
+
+/* ===== SIDE INDICATOR DOTS ===== */
+.side-dots {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  z-index: 10;
+}
+
+.side-dots.left-dots {
+  left: 20px;
+}
+
+.side-dots.right-dots {
+  right: 20px;
+}
+
+.indicator-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #00ff9d;
+  box-shadow: 0 0 8px #00ff9d;
+  animation: dotPulse 1.2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 8px #00ff9d;
+  }
+  50% {
+    transform: scale(1.4);
+    box-shadow: 0 0 16px #00ff9d, 0 0 24px rgba(0, 255, 157, 0.5);
+  }
+}
+
+/* ===== STATUS BAR ===== */
+.status-bar {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  color: rgba(0, 255, 157, 0.5);
+  letter-spacing: 0.08em;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  z-index: 15;
+  white-space: nowrap;
+}
+
+.status-dot {
+  animation: dotBlink 1.2s ease-in-out infinite;
+}
+
+@keyframes dotBlink {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* ===== WIREFRAME SHAPES ===== */
+.shape {
+  position: absolute;
+  border: 1px solid rgba(0, 255, 157, 0.25);
+  z-index: 8;
+}
+
+.shape.diamond {
+  width: 24px;
+  height: 24px;
+  transform: rotate(45deg);
+  animation: floatRotate linear infinite;
+}
+
+.shape.square {
+  width: 20px;
+  height: 20px;
+  animation: floatRotate linear infinite;
+}
+
+@keyframes floatRotate {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  100% {
+    transform: translateY(-12px) rotate(360deg);
+  }
+}
+
+.shape.diamond {
+  animation: floatRotate linear infinite;
+}
+
+.shape.square {
+  animation: floatRotate linear infinite;
+}
+
+/* ===== FLOATING PARTICLES ===== */
+.floating-particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  background: #00ff9d;
+  border-radius: 50%;
+  animation: floatUp linear forwards;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-300px);
+  }
+}
+
+/* ===== SCAN BEAM ===== */
+.scan-beam {
+  position: absolute;
+  top: -60px;
+  left: 0;
+  width: 100%;
+  height: 60px;
+  background: linear-gradient(transparent, rgba(0, 255, 157, 0.03), transparent);
+  z-index: 4;
+  animation: scanBeam 4s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes scanBeam {
+  0% {
+    top: -60px;
+  }
+  100% {
+    top: 100vh;
+  }
+}
+
+/* ===== CRT SCANLINES ===== */
+.scanlines {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 3px,
+    rgba(0, 255, 157, 0.012) 3px,
+    rgba(0, 255, 157, 0.012) 4px
+  );
+  z-index: 50;
+}
+
+/* ===== VIGNETTE ===== */
+.vignette {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0, 0, 0, 0.85) 100%);
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* ===== TERMINAL TEXT ===== */
+.intro-terminal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: rgba(0, 255, 157, 0.7);
+  letter-spacing: 0.08em;
+  line-height: 1.8;
+  z-index: 20;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.terminal-line {
+  animation: terminalSlideIn 0.4s ease-out forwards;
+}
+
+@keyframes terminalSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes terminalFadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+/* ===== NAME SECTION ===== */
+.name-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 25;
+  animation: nameSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  opacity: 0;
+}
+
+@keyframes nameSlideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) translateY(20px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) translateY(0) scale(1);
+  }
+}
+
+.name-content {
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+  text-align: center;
+  position: relative;
+}
+
+.name-line-one {
+  color: #00ff9d;
+  text-shadow:
+    0 0 7px #00ff9d,
+    0 0 14px #00ff9d,
+    0 0 28px #00e673,
+    0 0 56px rgba(0, 230, 115, 0.4),
+    0 0 100px rgba(0, 230, 115, 0.15);
+  animation: nameBlink 8s ease-in infinite;
+}
+
+.name-line-two {
+  color: #ffb800;
+  text-shadow:
+    0 0 7px #ffb800,
+    0 0 14px #ffb800,
+    0 0 28px #ff9500,
+    0 0 56px rgba(255, 149, 0, 0.4),
+    0 0 100px rgba(255, 149, 0, 0.15);
+}
+
+@keyframes nameBlink {
+  0%, 8% {
+    opacity: 1;
+    text-shadow:
+      0 0 7px #00ff9d,
+      0 0 14px #00ff9d,
+      0 0 28px #00e673,
+      0 0 56px rgba(0, 230, 115, 0.4),
+      0 0 100px rgba(0, 230, 115, 0.15);
+  }
+  8.5% {
+    opacity: 0.85;
+  }
+  9% {
+    opacity: 1;
+  }
+  9.2% {
+    opacity: 0.7;
+  }
+  9.5% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    text-shadow:
+      0 0 7px #00ff9d,
+      0 0 14px #00ff9d,
+      0 0 28px #00e673,
+      0 0 56px rgba(0, 230, 115, 0.4),
+      0 0 100px rgba(0, 230, 115, 0.15);
+  }
+}
+
+@keyframes nameBrieflens {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.85;
+  }
+}
+
+/* Glitch overlay */
+.name-glitch {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Press Start 2P', monospace;
+  font-size: clamp(1.8rem, 4.5vw, 3.2rem);
+  letter-spacing: 0.06em;
+  line-height: 1.4;
+  text-align: center;
+  color: #ff004d;
+  opacity: 0;
+  z-index: 26;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.name-glitch::before {
+  content: 'SHAIK HASSAN';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  opacity: 0;
+}
+
+.name-glitch.active {
+  animation: glitchEffect 0.3s ease-out forwards;
+}
+
+@keyframes glitchEffect {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 0 0 0);
+    transform: translateX(0);
+  }
+  10% {
+    opacity: 1;
+    clip-path: inset(10% 0 60% 0);
+    transform: translateX(-2px);
+  }
+  20% {
+    clip-path: inset(50% 0 10% 0);
+    transform: translateX(2px);
+  }
+  30% {
+    clip-path: inset(20% 0 30% 0);
+    transform: translateX(-2px);
+  }
+  40% {
+    clip-path: inset(40% 0 20% 0);
+    transform: translateX(2px);
+  }
+  50% {
+    clip-path: inset(15% 0 50% 0);
+    transform: translateX(-2px);
+  }
+  70% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transform: translateX(0);
+  }
+  100% {
+    opacity: 0;
+    clip-path: inset(0 0 0 0);
+    transform: translateX(0);
+  }
+}
+
+/* ===== SUBTITLE ===== */
+.subtitle {
+  position: absolute;
+  top: 55%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 10px;
+  color: rgba(255, 184, 0, 0.6);
+  letter-spacing: 0.45em;
+  text-align: center;
+  z-index: 25;
+  animation: subtitleSlideIn 0.7s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+@keyframes subtitleSlideIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 0) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) translateY(0);
+  }
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-container {
+  position: absolute;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  z-index: 25;
+  animation: progressSlideIn 0.4s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes progressSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.progress-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  color: rgba(0, 255, 157, 0.5);
+  margin-bottom: 8px;
+  letter-spacing: 0.1em;
+}
+
+.progress-track {
+  width: 240px;
+  height: 2px;
+  background: rgba(0, 255, 157, 0.1);
+  border: 1px solid rgba(0, 255, 157, 0.2);
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #00ff9d;
+  box-shadow: 0 0 8px #00ff9d;
+  transition: width 60ms linear;
+  width: 0%;
+}
+
+.progress-percent {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 9px;
+  color: rgba(0, 255, 157, 0.5);
+  margin-top: 6px;
+  letter-spacing: 0.08em;
+}
+
+/* ===== TRANSITION OUT ===== */
+@keyframes introPulseOut {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .status-bar {
+    font-size: 7px;
+    gap: 4px;
+  }
+
+  .intro-terminal {
+    font-size: 8px;
+  }
+
+  .progress-track {
+    width: 180px;
+  }
+
+  .corner-bracket {
+    width: 16px;
+    height: 16px;
+    border-width: 1px;
+  }
+
+  .side-dots {
+    left: 10px;
+    right: 10px;
+    gap: 4px;
+  }
+
+  .side-dots.right-dots {
+    right: 10px;
+  }
+}

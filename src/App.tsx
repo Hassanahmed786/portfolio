@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, Suspense } from 'react';
 import { Scene } from './canvas/Scene';
-import { Loader } from './sections/Loader';
+import { Intro } from './components/Intro';
 import { HeroContent } from './sections/Hero';
 import { AboutSection } from './sections/About';
 import { ExperienceSection } from './sections/Experience';
@@ -146,7 +146,7 @@ export default function App() {
       {/* Canvas background - always mounted */}
       <Scene />
 
-      {/* Loading screen */}
+      {/* Intro screen */}
       <div
         ref={loaderRef}
         style={{
@@ -160,7 +160,7 @@ export default function App() {
           pointerEvents: loaded ? 'none' : 'auto',
         }}
       >
-        <Loader onComplete={() => setLoaded(true)} />
+        <Intro onComplete={() => setLoaded(true)} />
       </div>
 
       {/* Custom cursor */}

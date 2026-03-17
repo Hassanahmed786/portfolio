@@ -57,7 +57,7 @@ export function HeroContent() {
 
         .hero-name-container {
           font-family: 'Press Start 2P', monospace;
-          font-size: clamp(3rem, 12vw, 9rem);
+          font-size: clamp(2rem, 8vw, 5.5rem);
           color: #00ff9d;
           text-shadow: 0 0 20px #00ff9d, 0 0 40px #00ff9d, 0 0 80px #00ff9d40;
           letter-spacing: 0.08em;

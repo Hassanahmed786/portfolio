@@ -1,6 +1,6 @@
 import { Canvas } from '@react-three/fiber';
 import { EffectComposer, Bloom, Vignette, ChromaticAberration } from '@react-three/postprocessing';
-import { GridFloor, ParticleField, FloatingGeometry, DNAHelix, WireframeBox, IcosahedronElement, AchievementTrophies, WarpTunnel, MagneticFieldLines, CodeFragments } from './SceneElements';
+import { GridFloor, ParticleField, FloatingGeometry } from './SceneElements';
 import { Suspense } from 'react';
 import { Vector2 } from 'three';
 
@@ -41,17 +41,8 @@ export function Scene() {
       <Suspense fallback={null}>
         {/* Core scene elements */}
         <GridFloor />
-        <ParticleField count={3000} />
-        <FloatingGeometry count={35} />
-
-        {/* New 3D Elements */}
-        <DNAHelix />
-        <WireframeBox />
-        <IcosahedronElement />
-        <AchievementTrophies />
-        <WarpTunnel />
-        <MagneticFieldLines />
-        <CodeFragments />
+        <ParticleField count={2000} />
+        <FloatingGeometry count={12} />
 
         {/* Post-processing - conditional on DPR */}
         {showEffects ? (
